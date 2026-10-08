@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Letter Match</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --fg: #111111;
+    --muted: #888888;
+    --track: #dddddd;
+    --timer: #e67e22;
+    --ok: #2e8b57;
+    --bad: #c0392b;
+    --hit: #c8f7c5;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #161616;
+      --fg: #f2f2f2;
+      --muted: #8a8a8a;
+      --track: #3a3a3a;
+      --timer: #f0a060;
+      --ok: #5fd08f;
+      --bad: #ff7a6b;
+      --hit: #24482e;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #161616;
+    --fg: #f2f2f2;
+    --muted: #8a8a8a;
+    --track: #3a3a3a;
+    --timer: #f0a060;
+    --ok: #5fd08f;
+    --bad: #ff7a6b;
+    --hit: #24482e;
+    color-scheme: dark;
+  }
+  [hidden] { display: none !important; }
+
+  body {
+    margin: 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--bg);
+    color: var(--fg);
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  #langBar {
+    margin-bottom: 8px;
+  }
+  #langSelect {
+    font: inherit;
+    font-size: 16px;
+    padding: 6px 10px;
+    background: var(--bg);
+    color: var(--fg);
+    border: 1px solid var(--track);
+    border-radius: 8px;
+  }
+  #status {
+    font-size: 18px;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+  #timerWrap {
+    width: min(300px, 90vw);
+    height: 10px;
+    background: var(--track);
+    border-radius: 5px;
+    overflow: hidden;
+    visibility: hidden;
+  }
+  #timerBar {
+    height: 100%;
+    width: 100%;
+    background: var(--timer);
+  }
+  #grid {
+    position: relative;
+    width: min(300px, 90vw);
+    height: min(300px, 90vw);
+    margin-top: 12px;
+  }
+  .cell {
+    position: absolute;
+    width: 33.33%;
+    height: 33.33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(72px, 24vw);
+    color: var(--muted);
+    border-radius: 12px;
+  }
+  .cell.correct { background: var(--hit); }
+  #c-top    { left: 33.33%; top: 0; }
+  #c-bottom { left: 33.33%; top: 66.66%; }
+  #c-left   { left: 0; top: 33.33%; }
+  #c-right  { left: 66.66%; top: 33.33%; }
+  #c-center { left: 33.33%; top: 33.33%; }
+  #target {
+    position: absolute;
+    width: 33.33%;
+    height: 33.33%;
+    left: 33.33%;
+    top: 33.33%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: min(72px, 24vw);
+    color: var(--fg);
+    transition: left 0.25s ease, top 0.25s ease;
+    pointer-events: none;
+  }
+  #msg {
+    margin-top: 16px;
+    font-size: 40px;
+    height: 50px;
+  }
+  .ok { color: var(--ok); }
+  .bad { color: var(--bad); }
+</style>
+<script src="languages/kn.js"></script>
+<script src="languages/hi.js"></script>
+<script src="languages/ta.js"></script>
+<script src="game.js" defer></script>
+</head>
+<body>
+
+<div id="langBar"><select id="langSelect" aria-label="Language"></select></div>
+
+<div id="status"><span id="turnTxt"></span><span id="scoreTxt"></span></div>
+<div id="timerWrap"><div id="timerBar"></div></div>
+
+<div id="grid">
+  <div class="cell" id="c-top"></div>
+  <div class="cell" id="c-left"></div>
+  <div class="cell" id="c-center"></div>
+  <div class="cell" id="c-right"></div>
+  <div class="cell" id="c-bottom"></div>
+  <div id="target"></div>
+</div>
+
+<div id="msg"></div>
+
+</body>
+</html>
